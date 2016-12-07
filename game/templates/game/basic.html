@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+
+	<title>{% block title %} {% endblock %}</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	{% block custom_scripts %} {% endblock %}
+	<script src="../../static/game/js/CSRFToken.js"></script>
+
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/game">bAIv</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/game">Home</a></li>
+      <li><a href="/game/info">What is this about?</a></li>
+    </ul>
+  </div>
+</nav>
+
+	<div class="container-fluid">
+		{% block body_block %} <!-- this is where page specific content will start -->
+ 
+
+		{% endblock %} <!-- this is where page specific content will end -->
+	<div class="container-fluid">
+</body>
+</html>

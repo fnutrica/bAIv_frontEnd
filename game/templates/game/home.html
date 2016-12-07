@@ -1,0 +1,142 @@
+{% extends 'game/basic.html' %}
+
+{% block custom_scripts %}
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+{% endblock %}
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+{% block title %} bAIv {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+
+
+  <div class="row">
+  <div id="game_prompt" class = "col-sm-5 col-md-6">
+  <div class="well">
+  <b>Scenario</b>
+  </br>
+  </br>
+  {{scenario_text}}
+  
+
+  </div>
+  </div>
+  <div id="game_result" class = "col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
+  <div class="well" id="results_graph" style="min-width: 310px; height: 400px; margin: 0 auto">
+  game_result
+
+
+  </div>
+  </div>
+  </div>
+
+  <div class="row">
+  <div id="user_inputs" class ="col-sm-6 col-md-5 col-lg-6">
+  <div class="well">
+
+  <form action="/game/simulate" method="POST" id="input-form">
+  {% csrf_token %}
+    
+ 	<script> 
+   
+   var questions_string = '['+'{% for input in inputs %} {"question": "{{input}}", "answers": "{{input.answers}}" }, {% endfor %}'+' ])'
+   var questions_string = questions_string.split(",  ])")[0]+"]"
+   var questions = JSON.parse(questions_string);
+   
+  //{/% for input in inputs %/}
+
+  for (question in questions){
+   var questionDiv = document.createElement("div");
+   questionDiv.innerHTML = questionDiv.innerHTML + "<b>" + questions[question].question + "</b></br>"
+   questionDiv.id = "question-"+question;
+ 
+   //console.log("{% for input in inputs %} {{input}}   {% endfor %}")
+   //console.log(questionTitle)
+   
+   
+   var answersDiv = document.createElement("select");
+   answersDiv.form = "input-form";
+   answers= questions[question].answers;
+   answers=answers.split(", ")
+   for (answer in answers){
+    var opt = document.createElement("option");
+    opt.textContent = answers[answer];
+    opt.value = answers[answer];
+    answersDiv.appendChild(opt);
+   }
+   questionDiv.appendChild(answersDiv);
+   document.getElementById("input-form").appendChild(questionDiv);
+}
+    $('#input-form').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!");
+    data={"questions": questions, "scenario_id": '{{scenario_id}}',"order_n": '{{scenario_order_n}}'};
+    for (question in questions){
+    	selector="#question-"+question + " :selected";
+    	data[questions[question].question] = $(selector).text()
+    	}
+
+    simulate(data);
+    
+});
+
+  </script>
+   </br>
+ <!-- {/% endfor %/} -->
+
+ </br>
+  <input type="submit"  value="SIMULATE">  
+ </form>
+
+ </div>
+  </div>
+  <div id="game_data" class = "col-sm-6 col-md-5 col-md-offset-2 col-lg-6 col-lg-offset-0">
+  <div class="well">
+
+  game_data
+    
+  </div>
+  </div>
+  </div>
+
+</div>
+
+
+<script>
+
+
+
+
+  function simulate(my_data) {
+    console.log("create post is working!") // sanity check
+    $.ajax({
+        url : "/game/simulate", // the endpoint
+        type : "POST", // http method
+        data : my_data, // data sent with the post request
+
+        // handle a successful response
+        success : function(response) {
+            //$('#post-text').val(''); // remove the value from the input
+            console.log(response); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            //console.log(//(xhr.status) + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
+</script>
+
+{% endblock %}
+
