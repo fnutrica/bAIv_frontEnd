@@ -53,11 +53,11 @@
    var questionDiv = document.createElement("div");
    questionDiv.innerHTML = questionDiv.innerHTML + "<b>" + questions[question].question + "</b></br>"
    questionDiv.id = "question-"+question;
- 
+    
    //console.log("{% for input in inputs %} {{input}}   {% endfor %}")
    //console.log(questionTitle)
    
-   
+  
    var answersDiv = document.createElement("select");
    answersDiv.form = "input-form";
    answers= questions[question].answers;
@@ -123,7 +123,7 @@
             //$('#post-text').val(''); // remove the value from the input
             console.log(response); // log the returned json to the console
             console.log("success"); // another sanity check
-
+            replaceValues(response);
 
         },
 
@@ -135,6 +135,16 @@
         }
     });
 };
+
+      //  context = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs}
+
+  function replaceValues(responseData){
+    new_scenario_text = responseData.scenario_text;
+
+
+
+
+  }
 
 </script>
 
