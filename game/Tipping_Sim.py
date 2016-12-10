@@ -10,7 +10,7 @@ N_CUSTOMERS = 10
 GENERATIONS = 10
 
 def tipping_sim():
-
+    print ("MUAHAHAHA, I am running the simulation")
     pop = []
 
     init_pref = 50

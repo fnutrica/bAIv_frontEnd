@@ -6,20 +6,30 @@ from .models import Player, Scenario, Input
 from django.core import serializers
 from . import Customer 
 from . import Tipping_Sim
+
 # Create your views here.
 
 def play(request):
     initial_scenarios = Scenario.objects.filter(order_n=0)
     count = initial_scenarios.count()
-    index = randint(0, count-1)
-    my_scenario = initial_scenarios[index]
-    my_inputs = Input.objects.all().filter(scenario = my_scenario)
-    context = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs}
-    
-    return render(request, 'game/home.html', context)
+    print("count: "+ str(count))
+    if (count is not None):
+        if (count > 0): 
+            index = randint(0, count-1)
+            my_scenario = initial_scenarios[index]
+            my_inputs = Input.objects.all().filter(scenario = my_scenario)
+            context = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs}
+            return render(request, 'game/home.html', context)
+    else:
+        return ('<h1>Website is under construction... brace for awesomeness!</h1>')
 
 def index(request):
     return render(request, 'game/info.html')
+
+#Finds follow up scenario for more complext simulations. Currently set to keep the same scenario
+def find_next(scenario_id, order_n):
+        return Scenario.objects.filter(scenario_id = scenario_id).filter(order_n=order_n)[0]
+
 
 def simulate(request):
     if request.method == 'POST':
@@ -29,10 +39,10 @@ def simulate(request):
             answer = request.POST.get(question)
             answered_questions.append({"question":question, "answer": answer})
         next_order = int(float(request.POST.get("order_n")));  #can add 1 to order_n when more complex scenarios are built
-        next_id = int(float(request.POST.get("scenario_id")));
-
-        my_scenario= Scenario.objects.filter(scenario_id = next_id).filter(order_n=next_order)[0]
+        scenario_id = int(float(request.POST.get("scenario_id")));
+        my_scenario= find_next(scenario_id, next_order)
         my_inputs = serializers.serialize("json",Input.objects.all().filter(scenario = my_scenario))
+        
 
         """
         response_data = {}
@@ -46,6 +56,9 @@ def simulate(request):
 
         #store results from passing input values to python script
         #generating random data until the algorithm is added into this
+
+        
+        #sim_results = Tipping_Sim.tipping_sim()
         sim_results = [{"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10 },
                     {"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10},
                     {"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10},
@@ -98,6 +111,6 @@ def simulate(request):
             )   
     else:
         return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
+            json.dumps({"error": "did not return a valid response"}),
             content_type="application/json"
         )
