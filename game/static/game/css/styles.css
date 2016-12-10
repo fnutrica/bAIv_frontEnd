@@ -1,0 +1,42 @@
+body{
+  padding-top: 10px;
+  background-color: #82c5fc;
+} 
+
+th, tr {
+    text-align: center;
+}
+
+
+ #prompt_textNOT_USED{
+  color: black; 
+  font-family: "Courier";
+  font-size: 20px;
+  white-space: normal;
+  overflow: auto;
+  width: 90%;
+  animation: type 2s steps(30, end); 
+  font-weight: bold;
+  overflow-wrap:break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+
+}
+
+ #prompt_text{
+  color: black; 
+  font-family: "Courier";
+  font-size: 20px;
+  white-space: normal;
+  overflow: auto;
+  width: 100%;
+  
+  font-weight: bold;
+ 
+
+}
+
+
+@keyframes type{ 
+   from {width: 0;}
+} 

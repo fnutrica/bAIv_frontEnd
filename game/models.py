@@ -9,7 +9,7 @@ class Player(models.Model):
 		return self.score
 
 class Scenario(models.Model):
-	text = models.CharField(max_length=500)
+	text = models.CharField(max_length=3000)
 	scenario_id = models.IntegerField()
 	order_n = models.IntegerField()
 
