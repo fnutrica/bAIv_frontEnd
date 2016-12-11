@@ -1,68 +1,85 @@
 import random
-import math
-from . import Customer
+import Customer
+import Restaurant
 
 PRICE = 100
 MAX = 1
 MIN = 0
-#N_RESTAURANT = 20
-N_CUSTOMERS = 10
-GENERATIONS = 10
+N_RESTAURANTS = 10
+N_CUSTOMERS = 20
+MAX_GENERATIONS = 10
+N_ATTRIBUTES = 4 # exactly 4 attributes for both Customer & Restaurant
 
 def tipping_sim():
-    print ("MUAHAHAHA, I am running the simulation")
-    pop = []
 
-    init_pref = 50
-    for i in range(0, N_CUSTOMERS):
-        minTip = random.uniform(MIN, MAX)
-        behavioral = random_behavior()
-        pop.append(Customer.Customer(init_pref, minTip, behavioral, PRICE))
+    customer_pop = []
+    restaurant_pop = []
+
+    # generate random population
+    for i in range(N_CUSTOMERS):
+        customer_pop.append(Customer.Customer())
+    for i in range(N_RESTAURANTS):
+        restaurant_pop.append(Restaurant.Restaurant())
 
     print("================ Initial States ================")
 
-    for i in range(0,len(pop)):
-        curr = pop[i]
-        print("Customer #", i)
-        curr.printCustomer()
+    # for printing
+    for i in range(len(restaurant_pop)):
+        current = restaurant_pop[i]
+        print("Restaurant #", i)
+        current.printRestaurant()
 
-    #always false
-    foundEquilibrium = False
     count = 0
-
-    while (not foundEquilibrium) and count < GENERATIONS:
+    while count < MAX_GENERATIONS:
         count += 1
+
+        # customer chooses restaurant
+        for customer in customer_pop:
+            for restaurant in restaurant_pop:
+                customer.set_expectations(restaurant)
+
+                values = []
+
+                for i in range(len(customer.expected_scores)):
+                    values.append(customer.expected_scores[i]["expectation"])
+
+                choice = rouletteSelect(values)
+                # updates restaurant's score
+                customer.score_restaurant(choice)
+
         print("================ Generation ", count, " ================")
 
-        #array of heuristics
-        fits = [cust.value for cust in pop]
+        # evolve restaurant
+        restaurantScores = [restaurant.score for restaurant in restaurant_pop]
+        newRestaurants = evolve(restaurant_pop, restaurantScores)
+        restaurant_pop = newRestaurants
 
-        print("Average fitness:", sum(fits) / len(fits))
-        print("Max fitness:", max(fits))
-        print("Min fitness:", min(fits))
+        # print restaurant attributes
+        printRestaurants(restaurant_pop)
 
-        parentPool = selectParents(pop, fits)
-        currPop = mateParents(parentPool)
+        # print generation summary
+        print("Average score:", sum(restaurantScores) / len(restaurantScores))
+        print("Max score:", max(restaurantScores))
+        print("Min score:", min(restaurantScores))
 
-        print(" ")
-        printCustomers(currPop)
-
-        pop.clear()
-        pop.extend(currPop)
+        # randomly evolve customer (constant heuristics)
+        customerHeuristics = []
+        for customer in customer_pop:
+            customerHeuristics.append(1)
+        newCustomers = evolve(customer_pop, customerHeuristics)
+        customer_pop = newCustomers
 
     print("================ Done ================")
-    print("Summary...")
-    print("Tipping Restaurant Customers: ")
-    print("Non-Tipping Restaurant Customers: ")
 
     return count
 
-def random_behavior():
-    return random.uniform(-1, 1)
+def evolve(pop, heuristic):
+    parentPool = selectParents(pop, heuristic)
+    return mateParents(parentPool)
 
-def printCustomers(neighList):
+def printRestaurants(neighList):
     for neigh in neighList:
-        neigh.printCustomer()
+        neigh.printRestaurant()
 
 #============================================================================================
 
@@ -87,43 +104,47 @@ def selectParents(states, fitnesses):
 def mateParents(parents):
     newPop = []
 
+    # select parents for crossover
     for i in range(0, len(parents), 2):
         p1 = parents[i]
         p2 = parents[i+1]
 
-        newOnes = crossover(p1, p2)
-        newPop.extend(newOnes)
+        # exactly 4 attributes to be swapped for both Customer and Restaurant
+        n_cross = random.randint(0, N_ATTRIBUTES)
 
+        if n_cross == 0:
+            newPop.append(p1)
+            newPop.append(p2)
+        else:
+            newOnes = crossover(p1, p2, n_cross)
+            newPop.extend(newOnes)
+
+    # mutate child
     for i in range(len(newPop)):
         nextOne = newPop[i]
         doMutate = random.random()
 
-        if doMutate <= 0.5:
-            newPop[i] = nextOne.mutation()
+        # 50% chance of mutation
 
+        if doMutate <= 0.1:
+            nextOne.mutate()
+            newPop[i] = nextOne
     return newPop
 
-"""
-# what is a random move? - +/- minTip? bit-string?
-"""
+def crossover(agent1, agent2, n_cross):
 
-# cross point? not random right now bc there's only 2 variables
-def crossover(customer1, customer2):
-    pref1 = customer1.preference
-    tip1 = customer1.minTip
-    pref2 = customer2.preference
-    tip2 = customer2.minTip
+    prob_cross = random.randint(0,100)
 
-    #new random behavior assigned
-    behav = random_behavior()
+    if prob_cross <= 101: #for future use
 
-    newCust1 = Customer.Customer(pref1, tip2, behav, PRICE)
-    newCust2 = Customer.Customer(pref2, tip1, behav, PRICE)
+        targets = random.sample(range(0,N_ATTRIBUTES),n_cross)
 
-    return [newCust1, newCust2]
+        for i in targets:
+            attribute1 = agent1.get_e_attribute(i)
+            attribute2 = agent2.get_e_attribute(i)
+            agent1.set_e_attribute(i, attribute2)
+            agent2.set_e_attribute(i, attribute1)
+
+    return [agent1, agent2]
 
 
-"""
-# what do i cross? - minTip? bit string?
-# How do I cross? - average? split?
-"""
