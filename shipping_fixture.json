@@ -1,0 +1,566 @@
+[
+{
+    "model": "game.scenario",
+    "pk": 1,
+    "fields": {
+        "text": "In this scenario, the main agents in the market are restaurants and customers. You are able to set the number of restaurants and the number of customers for any new game, but you won`t be able to change it during the simulation. Customers have a preference for \u2026\u2026  Restaurants are able to set \u2026 and so will you for your very own restaurant.\u000bYour goal in the game is to maximize your profits over the course of a series of rounds.  Remember customer`s preferences may change over time, but the only information available to you is the profit you will make based on your decisions.  Good luck!",
+        "scenario_id": 0,
+        "order_n": 0
+    }
+},
+{
+    "model": "game.scenario",
+    "pk": 2,
+    "fields": {
+        "text": "I am the second part scenario of this app. DAMN!",
+        "scenario_id": 0,
+        "order_n": 1
+    }
+},
+{
+    "model": "game.scenario",
+    "pk": 3,
+    "fields": {
+        "text": "I am a test scenario",
+        "scenario_id": -10,
+        "order_n": -1
+    }
+},
+{
+    "model": "game.scenario",
+    "pk": 4,
+    "fields": {
+        "text": "I am a test scenario",
+        "scenario_id": -10,
+        "order_n": -1
+    }
+},
+{
+    "model": "game.scenario",
+    "pk": 5,
+    "fields": {
+        "text": "I am a test scenario",
+        "scenario_id": -10,
+        "order_n": -1
+    }
+},
+{
+    "model": "game.input",
+    "pk": 1,
+    "fields": {
+        "scenario": 1,
+        "question": "Which food would you like to serve in your restaurant?",
+        "answers": "Pizza, Hamburgers, Mediterranean, Indian"
+    }
+},
+{
+    "model": "game.input",
+    "pk": 2,
+    "fields": {
+        "scenario": 2,
+        "question": "I am the first question??? NO, second",
+        "answers": "answer 1, answer 2, answer 3"
+    }
+},
+{
+    "model": "game.input",
+    "pk": 3,
+    "fields": {
+        "scenario": 1,
+        "question": "Where would you like to be located?",
+        "answers": "Urban area, Suburban area, Rural area"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "game",
+        "model": "player"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "game",
+        "model": "scenario"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "game",
+        "model": "input"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+        "app_label": "auth",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "q2h6oxf0wziaj3o6zoltdm91hxibmjxi",
+    "fields": {
+        "session_data": "MzA2MWIwM2FmYzY5OGM2OGIxYmVkNWJiYTFlYzhkODYxNDZlMjY5Nzp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmZTQyNGI2ZmQ4MmQ2OTk2YTUyZDlkMjdiMTNhMTk0OTg0OWMzNjciLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=",
+        "expire_date": "2016-12-24T03:07:24.534Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "vuvfzkfbr0i5qi5aphjduqiyg4dt4u6s",
+    "fields": {
+        "session_data": "OGMzYjYwYmM3MGQ2YTQxYzA1YmZiNWY1MDNhN2ZkZDFjOTU1NGQzMTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6IjIiLCJfYXV0aF91c2VyX2hhc2giOiJjZmU0MjRiNmZkODJkNjk5NmE1MmQ5ZDI3YjEzYTE5NDk4NDljMzY3In0=",
+        "expire_date": "2016-12-20T22:28:22.056Z"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can add player",
+        "content_type": 10,
+        "codename": "add_player"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can change player",
+        "content_type": 10,
+        "codename": "change_player"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can delete player",
+        "content_type": 10,
+        "codename": "delete_player"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can add scenario",
+        "content_type": 11,
+        "codename": "add_scenario"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can change scenario",
+        "content_type": 11,
+        "codename": "change_scenario"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can delete scenario",
+        "content_type": 11,
+        "codename": "delete_scenario"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add input",
+        "content_type": 12,
+        "codename": "add_input"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change input",
+        "content_type": 12,
+        "codename": "change_input"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete input",
+        "content_type": 12,
+        "codename": "delete_input"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 13,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 13,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 13,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 14,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 14,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 14,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 15,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 15,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 15,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 16,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 16,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 16,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 17,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 17,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 17,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 18,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 18,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 18,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$hGqVqRV49VET$WzzmcShi8x6lrgJlgwrcRmyMmbucxUoobJ1RGkTzsuM=",
+        "last_login": "2016-12-10T03:07:24.510Z",
+        "is_superuser": true,
+        "username": "fnutrica",
+        "first_name": "",
+        "last_name": "",
+        "email": "fnutrica@macalester.edu",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-12-06T22:27:56.878Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2016-12-06T22:34:04.422Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "I am the first scenario of this app. DAMN!",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2016-12-06T22:34:30.394Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "I am the second part scenario of this app. DAMN!",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2016-12-06T22:37:29.718Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "I am the first question??? WOW",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2016-12-06T22:37:53.648Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "2",
+        "object_repr": "I am the first question??? NO, second",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2016-12-06T22:58:03.458Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "I am the second part scenario of this app. DAMN!",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"order_n\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2016-12-07T02:56:12.372Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "3",
+        "object_repr": "I am a second question",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2016-12-07T07:37:46.190Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "2",
+        "object_repr": "I am the first question??? NO, second",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2016-12-10T01:41:43.685Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "In this scenario, the main agents in the market are restaurants and customers. You are able to set the number of restaurants and the number of customers for any new game, but you won`t be able to chan",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2016-12-10T01:42:57.839Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "In this scenario, the main agents in the market are restaurants and customers. You are able to set the number of restaurants and the number of customers for any new game, but you won`t be able to chan",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"text\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2016-12-10T03:09:32.646Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "Which food would you like to serve in your restaurant?",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"question\", \"answers\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2016-12-10T03:11:01.719Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "3",
+        "object_repr": "Where would you like to be located?",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"question\", \"answers\"]}}]"
+    }
+}
+]

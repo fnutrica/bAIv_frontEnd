@@ -1,17 +1,19 @@
 import random
-import Customer
-import Restaurant
+from . import Customer
+from . import Restaurant
 
-PRICE = 100
+
+PRICE = Restaurant.PRICE
 MAX = 1
 MIN = 0
-N_RESTAURANTS = 10
-N_CUSTOMERS = 20
+N_RESTAURANTS = 30
+N_CUSTOMERS = 1000
 MAX_GENERATIONS = 10
-N_ATTRIBUTES = 4 # exactly 4 attributes for both Customer & Restaurant
+N_ATTRIBUTES = 4  # exactly 4 attributes for both Customer & Restaurant
+
 
 def tipping_sim():
-
+    sim_results = {}
     customer_pop = []
     restaurant_pop = []
 
@@ -26,8 +28,8 @@ def tipping_sim():
     # for printing
     for i in range(len(restaurant_pop)):
         current = restaurant_pop[i]
-        print("Restaurant #", i)
         current.printRestaurant()
+    print("")
 
     count = 0
     while count < MAX_GENERATIONS:
@@ -35,53 +37,57 @@ def tipping_sim():
 
         # customer chooses restaurant
         for customer in customer_pop:
-            for restaurant in restaurant_pop:
-                customer.set_expectations(restaurant)
-
-                values = []
-
-                for i in range(len(customer.expected_scores)):
-                    values.append(customer.expected_scores[i]["expectation"])
-
-                choice = rouletteSelect(values)
-                # updates restaurant's score
-                customer.score_restaurant(choice)
+            values = []
+            for restaurant in range(len(restaurant_pop)):
+                customer.set_expectations(restaurant_pop[restaurant])
+                values.append(customer.expected_scores[restaurant]["expectation"])
+            choice = rouletteSelect(values)
+            # updates restaurant's score
+            customer.score_restaurant(choice, PRICE)
 
         print("================ Generation ", count, " ================")
 
         # evolve restaurant
-        restaurantScores = [restaurant.score for restaurant in restaurant_pop]
-        newRestaurants = evolve(restaurant_pop, restaurantScores)
-        restaurant_pop = newRestaurants
+        restaurantScores = [restaurant.profit for restaurant in restaurant_pop]
+        parentRestaurants = selectParents(restaurant_pop, restaurantScores)
+        restaurant_pop = mateParents(parentRestaurants)
 
         # print restaurant attributes
         printRestaurants(restaurant_pop)
 
+
         # print generation summary
-        print("Average score:", sum(restaurantScores) / len(restaurantScores))
-        print("Max score:", max(restaurantScores))
-        print("Min score:", min(restaurantScores))
+        print("")
+        print("Average score:", "%.2f"%(sum(restaurantScores) / len(restaurantScores)))
+        print("Max score    :", "%.2f"%(max(restaurantScores)))
+        print("Min score    :", "%.2f"%(min(restaurantScores)))
+        print("")
 
         # randomly evolve customer (constant heuristics)
         customerHeuristics = []
         for customer in customer_pop:
             customerHeuristics.append(1)
-        newCustomers = evolve(customer_pop, customerHeuristics)
-        customer_pop = newCustomers
+
+        parentCustomers = selectParents(customer_pop, customerHeuristics)
+        customer_pop = mateParents(parentCustomers)
+
+    id = 1
+    for restaurant in restaurant_pop:
+        sim_results["restaurant " + str(id)] = {"profit": restaurant.profit}
+        id += 1
 
     print("================ Done ================")
 
-    return count
+    print("")
 
-def evolve(pop, heuristic):
-    parentPool = selectParents(pop, heuristic)
-    return mateParents(parentPool)
+    return sim_results
 
 def printRestaurants(neighList):
     for neigh in neighList:
         neigh.printRestaurant()
 
-#============================================================================================
+
+# ============================================================================================
 
 def rouletteSelect(valueList):
     totalValues = sum(valueList)
@@ -93,6 +99,7 @@ def rouletteSelect(valueList):
             return i
     return len(valueList) - 1
 
+
 def selectParents(states, fitnesses):
     """given a set of states, repeatedly select parents using roulette selection"""
     parents = []
@@ -101,13 +108,14 @@ def selectParents(states, fitnesses):
         parents.append(states[nextParentPos])
     return parents
 
+
 def mateParents(parents):
     newPop = []
 
     # select parents for crossover
     for i in range(0, len(parents), 2):
         p1 = parents[i]
-        p2 = parents[i+1]
+        p2 = parents[i + 1]
 
         # exactly 4 attributes to be swapped for both Customer and Restaurant
         n_cross = random.randint(0, N_ATTRIBUTES)
@@ -129,15 +137,16 @@ def mateParents(parents):
         if doMutate <= 0.1:
             nextOne.mutate()
             newPop[i] = nextOne
+
     return newPop
 
+
 def crossover(agent1, agent2, n_cross):
+    prob_cross = random.randint(0, 100)
 
-    prob_cross = random.randint(0,100)
+    if prob_cross <= 101:  # for future use
 
-    if prob_cross <= 101: #for future use
-
-        targets = random.sample(range(0,N_ATTRIBUTES),n_cross)
+        targets = random.sample(range(0, N_ATTRIBUTES), n_cross)
 
         for i in targets:
             attribute1 = agent1.get_e_attribute(i)

@@ -58,7 +58,10 @@ def simulate(request):
         #generating random data until the algorithm is added into this
 
         
-        #sim_results = Tipping_Sim.tipping_sim()
+        restaurants = Tipping_Sim.tipping_sim()
+        print("passed to views")
+        print(restaurants)
+        """
         sim_results = [{"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10 },
                     {"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10},
                     {"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10},
@@ -73,6 +76,7 @@ def simulate(request):
                        "other1":{"gens":1, "profit":125, "units_sold":100, "likelihood": 10},
                        "other2":{"gens":1, "profit":125, "units_sold":100, "likelihood": 10}
                        } #list of restaurants objects, containing their final attributes after simulating
+                       """
         #restaurants = serializers.serialize("json",restaurants)   necessary??
 
          #fake data from the algorithm
@@ -103,7 +107,7 @@ def simulate(request):
 
         
 
-        response_data = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "sim_results": sim_results, "inputs": my_inputs, "restaurants": restaurants}
+        response_data = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs, "restaurants": restaurants}
         
         return HttpResponse(
             json.dumps(response_data) ,
