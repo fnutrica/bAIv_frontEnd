@@ -1,273 +1,48 @@
 {% extends 'game/basic.html' %}
+{% block title %} bAIv {% endblock %}
 
-{% block custom_scripts %}
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-<link rel="stylesheet" type="text/css" href="../../static/game/css/styles.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
-{% endblock %}
 
-{% block title %} bAIv-homepage{% endblock %}
+
+
 
 {% block body_block %}
 
-
 <div class="container">
-  <div class="well">
+  <div class="jumbotron">
     <center>
-    <h1><b> bAIv! </b></h1> 
-    <h3> Read the scenario, choose the starting parameters and simulate the market reaction. </h3>    
+      <h1>Welcome to bAIv!</h1>
+        <p class="lead"><b> bAiv </b> allows you simulate the evolution of players in a market. </p>
+        <p> You will be selecting simulation parameters while learning about AI agents, mimicking real businesses and customers in the quest for their best strategy. </p>
+        <h2> 
+          <a type="button" class="btn btn-lg btn-primary" href="/game/play" >  START </a>
+        </h2>
+      <h1>
     </center>
   </div>
 
   <div class="row">
-    <div  id="game_prompt" class="col-md-7">
-      <div class="well" style="background-color: #ff9796; border-color: #ef8786;">
-        <center><h3><b>Scenario</b></h3></center>
+    <div  id="p_descript" class = "col-md-12">
+      <div class="well" >
+        <b><center>Description of Project </center></b>
         <br>
-        <div id="prompt_text"> 
-          {{scenario_text}} 
-        </div>
-        <br>
-      </div>
-    </div>
- 
-    <div class ="col-md-5">
-      <div class="well">
-        <form action="/game/simulate" method="POST" id="input-form">
-         {% csrf_token %}
-          <div id="user_inputs"></div>
+        <p>
+          This website was designed as a visual tool to interact with a genetic algorithm simulation. 
+          <br>
+          With this project we set to take advantage of the tools provided by the field of artificial
+          intelligence to simulate the complexity of an economic market, and attempt to predict its
+          outcomes. We focus specifically on the food industry and question its economic rationality.
+          <br>
+          The genetic algorithm we built, attempts to build a model of human behavior, based on a mix of observations, assumptions and educated guesses. 
+          <br> 
+          <br> 
+          While this project is still at its early stage, we hope our work will be used to build tools to teach about and collect data on economic behavior, particularly when it deviates from rationality. A future version of this website will engage the user in immersive experiences and ask them to make decisions as if they were in the real world. It will also allow educators to design their own games and scenarios, to be played interactively, online, by their students.
           <br>
           <br>
-          <center>
-            <b>
-            <input class="btn btn-primary" type="submit" value="SIMULATE">
-            </b>
-          </center>
-        </form>
-        <div>
-          <div class="loading-bar"></div>
-        </div>
+          For now, sit back, and enjoy guessing the outcomes of the market, based on the parameters you choose! Look forward to our paper, discussing what we learn in the process of building this market model and what we plan to do with it. Thank you.
+        </p>
       </div>
     </div>
-
-    <div id="game_data" class="col-md-5">
-      <div class="well">
-      <center>
-        <h3><b>PROGRESS</b></h3>
-
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Units Solds</b></td>
-              <td id="units_sold"></td>
-            </tr>
-            <tr>
-              <td><b>Total Profit</b></td>
-              <td id="profit"></td>
-            </tr>
-            <tr>
-              <td><b>Customer Purchase "odds"</b></td>
-              <td id="likelihood"></td>
-            </tr>
-          </tbody>
-        </table>
-      </center>
-      </div>
-    </div>
-
-    <br>
-   
-    <div id="game_result" class = "col-md-12 col-md-offset-0">
-      <div class="well" id="results_graph" style="display: none;"> 
-        <canvas id="myChart" width="100%" height="50%"></canvas>
-      </div>
-    </div>
-    
   </div>
-</div>
-
-
- 	<script> 
-
-   var questions_string = '['+'{% for input in inputs %} {"question": "{{input}}", "answers": "{{input.answers}}" }, {% endfor %}'+' ])'
-   var questions_string = questions_string.split(",  ])")[0]+"]"
-   var questions = JSON.parse(questions_string);
-   showQuestions(questions);
-
-   
-
-
-   function updateGraph(ctx, sim_data=null){
-    restaurants = Object.keys(sim_data);  
-    profits = []
-    restaurants_values = Object.values(sim_data);
-
-
-    for (rest in restaurants_values){
-      profits.push(restaurants_values[rest].profit) 
-    }
-
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: restaurants,
-        datasets: [{
-            label: 'Profit',
-            data: profits,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(86, 159, 64, 0.2)',
-                'rgba(54, 162, 132, 0.2)',
-                'rgba(192, 206, 86, 0.2)',
-                'rgba(255, 99, 192, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-
-   }
-   
-
-
-  function showQuestions(questions){
-    formDiv = document.getElementById("user_inputs");
-    formDiv.innerHTML = "";
-    for (question in questions){
-   var questionDiv = document.createElement("div");
-   questionDiv.innerHTML = questionDiv.innerHTML + "<h3><b>" + questions[question].question + "</b></h3>"
-   questionDiv.id = "question-" + question;
-
-   var answersDiv = document.createElement("select");
-   answersDiv.form = "input-form";
-   answersDiv.className = "form-control"
-   answers= questions[question].answers;
-   answers=answers.split(", ")
-   for (answer in answers){
-    var opt = document.createElement("option");
-    opt.textContent = answers[answer];
-    opt.value = answers[answer];
-    answersDiv.appendChild(opt);
-   }
-   questionDiv.appendChild(answersDiv);
-   formDiv.appendChild(questionDiv);
-}
-   
-  }
-
- $('#input-form').on('submit', function(event){
-    event.preventDefault();
-    console.log("form submitted!"); //sanity check
-    data={"questions": questions, "scenario_id": '{{scenario_id}}',"order_n": '{{scenario_order_n}}'};
-    for (question in questions){
-      selector="#question-"+question + " :selected";
-      data[questions[question].question] = $(selector).text()
-      }
-
-    simulate(data);
-    
-});
-
-
-  function simulate(my_data) {
-    console.log("Simulating...") // sanity check
-    $("body").addClass("loading");    
-    $.ajax({
-        url : "/game/simulate", // the endpoint
-        type : "POST", // http method
-        data : my_data, // data sent with the post request
-        // handle a successful response
-        success : function(response) {
-            console.log("success"); // another sanity check
-            updateData(response);
-        },
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom          
-        }
-    });
-};
-
-  function updateData(responseData){
-    new_scenario_text = responseData['scenario_text'];
-    questions = responseData['inputs'];
-    sim_results = responseData['restaurants'];
-
-    //add sim results in table
-    //profit = sim_results[player]['profit'];
-    //likelihood = sim_results.player['likelihood'];
-    //units_sold = sim_results.player['units_sold'];
-
-    /*
-    for (get_data in sim_results){
-        profit += sim_results[get_data]["profit"];
-        likelihood += sim_results[get_data]["likelihood"];
-        units_sold += sim_results[get_data]["units_sold"];
-    }
-    */
-
-    if (profit>=0){
-      $("#profit").text("$"+profit);
-    }
-    else {
-      $("#profit").text("- $"+profit);
-    }
-    //$("#likelihood").text(likelihood+"%");
-    //$("#units_sold").text(units_sold);
-    $("#results_graph").css({"display": "block"});
-    $("body").removeClass("loading");
-    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-    updateGraph($("#myChart"), sim_results);
-
-
-    questions = JSON.parse(questions);
-    $("#prompt_text").text(new_scenario_text);
-    for (question in questions){
-      questions[question].question=questions[question].fields.question;
-      questions[question].answers = questions[question].fields.answers;
-    }
-    $("#prompt_text").text(new_scenario_text);
-    showQuestions(questions);
-   
-  }//updateData
-
-</script>
 
 {% endblock %}
 

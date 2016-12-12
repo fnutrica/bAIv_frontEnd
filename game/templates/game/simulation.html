@@ -1,0 +1,100 @@
+{% extends 'game/basic.html' %} {% block custom_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
+<script src="../../static/game/js/simulate.js"></script>
+ {% endblock %} {% block title %} bAIv-homepage{% endblock %} {% block body_block %}
+<div class="container">
+  <div class="well">
+    <center>
+    <h1><b> bAIv! </b></h1>
+    <h3> Read the scenario, choose the starting parameters and simulate the market reaction. </h3>
+    </center>
+  </div>
+  <div class="row">
+    <div id="game_prompt" class="col-md-7">
+      <div class="well" style="background-color: #ff9796; border-color: #ef8786;">
+        <center>
+        <h3><b>Scenario</b></h3>
+        </center>
+        <br>
+        <div id="prompt_text">
+           {{scenario_text}}
+        </div>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="well">
+        <form action="/game/simulate" method="POST" id="input-form">
+           {% csrf_token %}
+          <div id="user_inputs">
+          </div>
+          <br>
+          <center>
+          <b>
+          <input class="btn btn-primary" type="submit" value="SIMULATE">
+          </b>
+          </center>
+          <br>
+          <br>
+        </form>
+        <div class="loading-bar">
+        </div>
+      </div>
+    </div>
+    <!--=
+    <div id="game_data" class="col-md-5">
+      <div class="well">
+      <center>
+        <h3><b>PROGRESS</b></h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Units Solds</b></td>
+              <td id="units_sold"></td>
+            </tr>
+            <tr>
+              <td><b>Total Profit</b></td>
+              <td id="profit"></td>
+            </tr>
+            <tr>
+              <td><b>Customer Purchase "odds"</b></td>
+              <td id="likelihood"></td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+      </div>
+    </div>
+    <br>
+    -->
+    <div id="game_result" class="col-md-12 col-md-offset-0">
+      <div class="well" id="results_graph" style="display: none;">
+        <canvas id="myChart" width="100%" height="50%"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var questions_string = '['+'{% for input in inputs %} {"question": "{{input}}", "answers": "{{input.answers}}" }, {% endfor %}'+' ]'
+  var questions_string = questions_string.split(",  ]")[0]+"]" //converting string to proper JSON
+  var questions = JSON.parse(questions_string);
+  showQuestions(questions);
+   $('#input-form').on('submit', function(event){
+    event.preventDefault();
+    data={"questions": questions, "scenario_id": '{{scenario_id}}',"order_n": '{{scenario_order_n}}'};
+    q_contents = ["n_restaurants", "init_price","n_customers", "max_generations"]
+    for (question in questions){
+      selector="#question-"+question + " :selected";
+      data[q_contents[question]] = $(selector).text()
+      }
+    simulate(data);   
+});
+</script>
+{% endblock %}

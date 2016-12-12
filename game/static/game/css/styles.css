@@ -26,42 +26,32 @@ th, tr {
 }
 
 
- #prompt_textNOT_USED{
-  color: black; 
-  font-family: "Courier";
-  font-size: 20px;
-  white-space: normal;
-  overflow: auto;
-  width: 90%;
-  animation: type 2s steps(30, end); 
-  font-weight: bold;
-  overflow-wrap:break-word;
-  word-break: break-all;
-  word-wrap: break-word;
-
-}
-
  #prompt_text{
   color: black; 
   font-family: "Courier";
   font-size: 20px;
   white-space: normal;
   overflow: auto;
-  width: 100%;
-  
+  width: 100%; 
   font-weight: bold;
 }
 
-@keyframes type{ 
-   from {width: 0;}
-} 
+#p_descript{
+  font-family: "Courier";
+  font-size: 20px;
+  white-space: normal;
+  overflow: auto;
+  width: 100%; 
+}
+
+
+
 
 .loading-bar {
     display:    none;
     position:   absolute;
     top:        78%;
     left:       70%;
-    /*z-index:    100;*/
     height:     10%;
     width:      10%;
     background: rgba( 255, 255, 255, 0 ) 

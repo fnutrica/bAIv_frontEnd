@@ -2,7 +2,6 @@ import random
 from . import Customer
 from . import Restaurant
 
-PRICE = Restaurant.PRICE
 MAX = 1
 MIN = 0
 N_RESTAURANTS = 30
@@ -11,16 +10,27 @@ MAX_GENERATIONS = 10
 N_ATTRIBUTES = 4  # exactly 4 attributes for both Customer & Restaurant
 
 
-def tipping_sim():
+def tipping_sim(init_price=None, n_restaurants=None, n_customers=None, max_generations=None):
+
+    if n_customers is None:
+        n_customers = N_CUSTOMERS
+
+    if n_restaurants is None:
+        n_restaurants = N_RESTAURANTS
+
+    if max_generations is None:
+        max_generations = MAX_GENERATIONS
+
+
     sim_results = {}
     customer_pop = []
     restaurant_pop = []
 
     # generate random population
-    for i in range(N_CUSTOMERS):
+    for i in range(n_customers):
         customer_pop.append(Customer.Customer())
-    for i in range(N_RESTAURANTS):
-        restaurant_pop.append(Restaurant.Restaurant())
+    for i in range(n_restaurants):
+        restaurant_pop.append(Restaurant.Restaurant(price = init_price))
 
     print("================ Initial States ================")
 
@@ -31,7 +41,7 @@ def tipping_sim():
     print("")
 
     count = 0
-    while count < MAX_GENERATIONS:
+    while count < max_generations:
         count += 1
 
         # customer chooses restaurant
@@ -42,7 +52,7 @@ def tipping_sim():
                 values.append(customer.expected_scores[restaurant]["expectation"])
             choice = rouletteSelect(values)
             # updates restaurant's score
-            customer.score_restaurant(choice, PRICE)
+            customer.score_restaurant(choice)
 
         print("================ Generation ", count, " ================")
 

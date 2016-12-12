@@ -49,14 +49,14 @@ class Customer(object):
         self.expected_scores.append({"restaurant": restaurant, "expectation":self.food_pref[restaurant.food_type] + self.service_val * restaurant.service_lv + self.location_pref[restaurant.location]})
         return
 
-    def score_restaurant(self, choice, PRICE):
+    def score_restaurant(self, choice):
         restaurant = self.expected_scores[choice]["restaurant"]
         additional_price = random.choice([-1, 1])*restaurant.tip
         actual_score = self.expected_scores[choice]["expectation"] + additional_price*self.pe_happiness
         restaurant.score = (restaurant.score*restaurant.n_scores + actual_score)/(restaurant.n_scores+1)
         restaurant.n_scores += 1
-        restaurant.profit = restaurant.profit + PRICE + additional_price
-        restaurant.marginal_profit = PRICE + additional_price
+        restaurant.profit = round(restaurant.profit + restaurant.price + additional_price)
+        restaurant.marginal_profit = restaurant.price + additional_price
         return
 
     def mutate(self):

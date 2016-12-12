@@ -1,7 +1,5 @@
 import random
 
-PRICE = 100
-
 PIZZA_COST = 2
 BURGER_COST = 2.2
 INDIAN_COST = 2.5
@@ -21,12 +19,15 @@ class Restaurant(object):
                  tip=None,
                  profit=0,
                  marginal_profit=0,
+                 price = None,
                  units_sold=None):
 
         FOOD_TYPE = {"Pizza ": PIZZA_COST, "Burger": BURGER_COST, "Indian": INDIAN_COST, "Shish ": SHISH_COST, "Asian ": ASIAN_COST}
         LOCATION = {"City ": CITY_RENT, "Urban": URBAN_RENT, "Sub  ": SUB_RENT, "Rural": RURAL_RENT}
-
-        self.price = self.unit_price()
+        if price is not None:
+            self.price = price
+        else:
+            self.price = self.unit_price()
         self.score = 2.5
         self.n_scores = 0
 
