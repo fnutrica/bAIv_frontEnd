@@ -12,7 +12,6 @@ from . import Tipping_Sim
 def play(request):
     initial_scenarios = Scenario.objects.filter(order_n=0)
     count = initial_scenarios.count()
-    print("count: "+ str(count))
     if (count is not None):
         if (count > 0): 
             index = randint(0, count-1)
@@ -59,8 +58,7 @@ def simulate(request):
 
         
         restaurants = Tipping_Sim.tipping_sim()
-        print("passed to views")
-        print(restaurants)
+
         """
         sim_results = [{"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10 },
                     {"gens":1, "seller": "restID1", "profit":125, "units_sold":100, "likelihood": 10},

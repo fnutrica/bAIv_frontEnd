@@ -15,9 +15,6 @@ class Scenario(models.Model):
 
     def __str__(self):
         return self.text 
-    
-    def find_next(self, scenario_id, order_n):
-    	return Scenario.objects.filter(scenario_id = next_id).filter(order_n=next_order)[0]
     	
 class Input(models.Model):
     scenario = models.ForeignKey(Scenario, on_delete = models.CASCADE)

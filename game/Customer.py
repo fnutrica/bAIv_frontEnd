@@ -21,7 +21,7 @@ class Customer(object):
         if location_pref is not None:
             self.location_pref = location_pref
         else:
-            self.location_pref = {"City ": random.uniform(0, 1), "Urban": random.uniform(0, 1), "Sub  ": random.uniform(0, 1), "Rural": random.uniform(0, 1)}
+            self.location_pref = {"City ": random.uniform(0, 1),"Urban": random.uniform(0, 1), "Sub  ": random.uniform(0, 1), "Rural": random.uniform(0, 1)}
 
         if pe_happiness is not None:
             self.pe_happiness = pe_happiness

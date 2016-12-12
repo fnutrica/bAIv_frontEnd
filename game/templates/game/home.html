@@ -11,89 +11,86 @@
 
 {% block body_block %}
 
-<div class="container">
 
-<div class="well">
-        <center>
-        </p><h1> <b> bAIv! </b></h1></p>  <h3> Read the scenario, choose your actions and simulate the market reaction. </h3>
-        
-        </center>
-      </div>
+<div class="container">
+  <div class="well">
+    <center>
+    <h1><b> bAIv! </b></h1> 
+    <h3> Read the scenario, choose the starting parameters and simulate the market reaction. </h3>    
+    </center>
+  </div>
 
   <div class="row">
-  <div  id="game_prompt"  class = "col-md-7">
-  <div class="well" style="background-color: lightyellow"  >
-  <center><h3><b>Scenario</b></h3></center><br>
-  <div id="prompt_text">  {{scenario_text}} </div>
-  <br>
-  <br>
- 
-
-  </div>
-  </div>
+    <div  id="game_prompt" class="col-md-7">
+      <div class="well" style="background-color: #ff9796; border-color: #ef8786;">
+        <center><h3><b>Scenario</b></h3></center>
+        <br>
+        <div id="prompt_text"> 
+          {{scenario_text}} 
+        </div>
+        <br>
+      </div>
+    </div>
  
     <div class ="col-md-5">
-  <div class="well">
+      <div class="well">
+        <form action="/game/simulate" method="POST" id="input-form">
+         {% csrf_token %}
+          <div id="user_inputs"></div>
+          <br>
+          <br>
+          <center>
+            <b>
+            <input class="btn btn-primary" type="submit" value="SIMULATE">
+            </b>
+          </center>
+        </form>
+        <div>
+          <div class="loading-bar"></div>
+        </div>
+      </div>
+    </div>
 
-  <form action="/game/simulate" method="POST" id="input-form">
-  {% csrf_token %}
+    <div id="game_data" class="col-md-5">
+      <div class="well">
+      <center>
+        <h3><b>PROGRESS</b></h3>
 
-  <div id="user_inputs" > </div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Units Solds</b></td>
+              <td id="units_sold"></td>
+            </tr>
+            <tr>
+              <td><b>Total Profit</b></td>
+              <td id="profit"></td>
+            </tr>
+            <tr>
+              <td><b>Customer Purchase "odds"</b></td>
+              <td id="likelihood"></td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+      </div>
+    </div>
 
-  <br>
-  <br>
-  <center><b>
-  <input style="background-color: orange; width: 100px; height: 40px;" type="submit" value="SIMULATE">  
-  </b></center>
- </form>
-
- </div>
-  </div>
-<div id="game_data" class = "col-md-5">
-  <div class="well">
-
-  <center>
-
-  <h3><b> PROGRESS </b></h3>
-
-<table border="2" style="width:90%">
-<tr>
-<th></th>
-<th><b> Value </b></th>
-</tr>
-<tr>
-<td><b> Units Solds </b></td>
-<td id = "units_sold">  </td>
-</tr>
-<tr>
-<td><b> Total Profit </b></td>
-<td id= "profit">  </td>
-</tr>
-<tr>
-<td><b>  Customer Purchase "odds"  </b></td>
-<td id = "likelihood">  </td>
-</tr>
-</table>
-</center>
+    <br>
+   
+    <div id="game_result" class = "col-md-12 col-md-offset-0">
+      <div class="well" id="results_graph" style="display: none;"> 
+        <canvas id="myChart" width="100%" height="50%"></canvas>
+      </div>
+    </div>
     
   </div>
-  </div>
-
-  
- 
-  <br>
- 
-  <div id="game_result" class = "col-md-12 col-md-offset-0">
-  <div class="well" id="results_graph" style="display: none;" > 
-  <canvas id="myChart" width="100%" height="50%">
-  </canvas>
-
-
-  </div>
-  </div>
-  
-  </div>
-
 </div>
 
 
@@ -178,6 +175,7 @@
 
    var answersDiv = document.createElement("select");
    answersDiv.form = "input-form";
+   answersDiv.className = "form-control"
    answers= questions[question].answers;
    answers=answers.split(", ")
    for (answer in answers){
@@ -208,6 +206,7 @@
 
   function simulate(my_data) {
     console.log("Simulating...") // sanity check
+    $("body").addClass("loading");    
     $.ajax({
         url : "/game/simulate", // the endpoint
         type : "POST", // http method
@@ -252,6 +251,8 @@
     //$("#likelihood").text(likelihood+"%");
     //$("#units_sold").text(units_sold);
     $("#results_graph").css({"display": "block"});
+    $("body").removeClass("loading");
+    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     updateGraph($("#myChart"), sim_results);
 
 

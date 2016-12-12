@@ -7,4 +7,3 @@ urlpatterns = [
     url(r'^/play', views.play, name='info'),
     url(r'^/simulate', views.simulate, name='simulate'),
 ]
-

@@ -2,7 +2,6 @@ import random
 from . import Customer
 from . import Restaurant
 
-
 PRICE = Restaurant.PRICE
 MAX = 1
 MIN = 0
