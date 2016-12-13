@@ -7,16 +7,16 @@ test_scenarios = []
 
 class gameTest(TestCase):
 
-    #fixtures = ['test_data.xml']
+    fixtures = ['test_data.xml']
     def test_index(self):
         print("testing index...")
         resp=self.client.get('/game')
         self.assertEqual(resp.status_code, 200)
 
     def test_game(self):
-        print("testing game...")
-        #resp=self.client.get('/game/play')
-        #self.assertEqual(resp.status_code, 200)
+        print("t6esting game...")
+        resp=self.client.get('/game/play')
+        self.assertEqual(resp.status_code, 200)
         print("SKIPPED TESTING GAME")
 
 

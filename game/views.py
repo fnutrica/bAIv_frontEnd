@@ -49,15 +49,22 @@ def simulate(request):
         my_scenario= find_next(scenario_id, next_order)
         my_inputs = serializers.serialize("json",Input.objects.all().filter(scenario = my_scenario))
         
-        
 
-        init_price=int(request.POST.get("init_price"))
-        n_restaurants=int(request.POST.get("n_restaurants"))
-        n_customers=int(request.POST.get("n_customers"))
-        max_generations=int(request.POST.get("max_generations"))
-        
-        restaurants = Tipping_Sim.tipping_sim(init_price, n_restaurants, n_customers, max_generations)
 
+        init_price= request.POST.get("init_price")
+        n_restaurants= request.POST.get("n_restaurants")
+        n_customers= request.POST.get("n_customers")
+        max_generations= request.POST.get("max_generations")
+
+        sim_data = [init_price,n_restaurants,n_customers,max_generations]
+        sim_data_ints = []
+        for i in range(len(sim_data)):
+            print (sim_data[i])
+            if sim_data[i] is not None:
+                sim_data[i] = int(sim_data[i])
+
+        restaurants = Tipping_Sim.tipping_sim(sim_data[0], sim_data[1], sim_data[2], sim_data[3])
+        print("sending new order n " + str(my_scenario.order_n))
         response_data = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs, "restaurants": restaurants}
         
         return HttpResponse(

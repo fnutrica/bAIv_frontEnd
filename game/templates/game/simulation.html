@@ -42,38 +42,6 @@
         </div>
       </div>
     </div>
-    <!--=
-    <div id="game_data" class="col-md-5">
-      <div class="well">
-      <center>
-        <h3><b>PROGRESS</b></h3>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Units Solds</b></td>
-              <td id="units_sold"></td>
-            </tr>
-            <tr>
-              <td><b>Total Profit</b></td>
-              <td id="profit"></td>
-            </tr>
-            <tr>
-              <td><b>Customer Purchase "odds"</b></td>
-              <td id="likelihood"></td>
-            </tr>
-          </tbody>
-        </table>
-      </center>
-      </div>
-    </div>
-    <br>
-    -->
     <div id="game_result" class="col-md-12 col-md-offset-0">
       <div class="well" id="results_graph" style="display: none;">
         <canvas id="myChart" width="100%" height="50%"></canvas>
@@ -82,13 +50,15 @@
   </div>
 </div>
 <script>
+  new_order_n = "{{scenario_order_n}}";
+
   var questions_string = '['+'{% for input in inputs %} {"question": "{{input}}", "answers": "{{input.answers}}" }, {% endfor %}'+' ]'
   var questions_string = questions_string.split(",  ]")[0]+"]" //converting string to proper JSON
   var questions = JSON.parse(questions_string);
   showQuestions(questions);
    $('#input-form').on('submit', function(event){
     event.preventDefault();
-    data={"questions": questions, "scenario_id": '{{scenario_id}}',"order_n": '{{scenario_order_n}}'};
+    data={"questions": questions, "scenario_id": '{{scenario_id}}',"order_n": new_order_n};
     q_contents = ["n_restaurants", "init_price","n_customers", "max_generations"]
     for (question in questions){
       selector="#question-"+question + " :selected";

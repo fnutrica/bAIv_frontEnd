@@ -11,7 +11,6 @@ URBAN_RENT = 40
 SUB_RENT = 30
 RURAL_RENT = 20
 
-
 class Restaurant(object):
     def __init__(self, food_type=None,
                  location=None,

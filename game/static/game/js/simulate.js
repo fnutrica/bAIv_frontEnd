@@ -3,7 +3,6 @@ function getRandomColor() {
     return rgba_ing = 'rgba('+ (Math.floor(Math.random() * 255))+","+ (Math.floor(Math.random() * 255))+","+ (Math.floor(Math.random() * 255));
 }
 
-
 function updateGraph(ctx, sim_data=null){
   restaurants = Object.keys(sim_data);  
   profits = [];
@@ -73,7 +72,6 @@ function showQuestions(questions) {
 }
 
 
-
 function simulate(my_data) {
   $("body").addClass("loading");    
   $.ajax({
@@ -91,6 +89,7 @@ function updateData(responseData){
   new_scenario_text = responseData['scenario_text'];
   questions = responseData['inputs'];
   sim_results = responseData['restaurants'];
+  new_order_n = responseData['scenario_order_n'];
 
   //add sim results in table
   //profit = sim_results[player]['profit'];
