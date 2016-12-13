@@ -90,29 +90,6 @@ function updateData(responseData){
   questions = responseData['inputs'];
   sim_results = responseData['restaurants'];
   new_order_n = responseData['scenario_order_n'];
-
-  //add sim results in table
-  //profit = sim_results[player]['profit'];
-  //likelihood = sim_results.player['likelihood'];
-  //units_sold = sim_results.player['units_sold'];
-
-  /*
-  for (get_data in sim_results){
-      profit += sim_results[get_data]["profit"];
-      likelihood += sim_results[get_data]["likelihood"];
-      units_sold += sim_results[get_data]["units_sold"];
-  }
-
-
-  if (profit>=0){
-    $("#profit").text("$"+profit);
-  }
-  else {
-    $("#profit").text("- $"+profit);
-  }
-  */
-  //$("#likelihood").text(likelihood+"%");
-  //$("#units_sold").text(units_sold);
   
   $("#myChart").remove();
   $("#results_graph").append('<canvas id="myChart"><canvas>');

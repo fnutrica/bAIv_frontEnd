@@ -9,6 +9,8 @@ N_CUSTOMERS = 1000
 MAX_GENERATIONS = 10
 N_ATTRIBUTES = 4  # exactly 4 attributes for both Customer & Restaurant
 
+DEBUG = False
+
 
 def tipping_sim(init_price=None, n_restaurants=None, n_customers=None, max_generations=None):
 
@@ -32,13 +34,13 @@ def tipping_sim(init_price=None, n_restaurants=None, n_customers=None, max_gener
     for i in range(n_restaurants):
         restaurant_pop.append(Restaurant.Restaurant(price = init_price))
 
-    print("================ Initial States ================")
+    if (DEBUG):
+        print("================ Initial States ================")
+        for i in range(len(restaurant_pop)):
+            current = restaurant_pop[i]
+            current.printRestaurant()
+        print("")
 
-    # for printing
-    for i in range(len(restaurant_pop)):
-        current = restaurant_pop[i]
-        current.printRestaurant()
-    print("")
 
     count = 0
     while count < max_generations:
@@ -54,23 +56,28 @@ def tipping_sim(init_price=None, n_restaurants=None, n_customers=None, max_gener
             # updates restaurant's score
             customer.score_restaurant(choice)
 
-        print("================ Generation ", count, " ================")
+        if (DEBUG):
+
+            print("================ Generation ", count, " ================")
 
         # evolve restaurant
         restaurantScores = [restaurant.profit for restaurant in restaurant_pop]
         parentRestaurants = selectParents(restaurant_pop, restaurantScores)
         restaurant_pop = mateParents(parentRestaurants)
 
-        # print restaurant attributes
-        printRestaurants(restaurant_pop)
+        
 
+        if (DEBUG):
+            
+            # print restaurant attributes
+            printRestaurants(restaurant_pop)
 
-        # print generation summary
-        print("")
-        print("Average score:", "%.2f"%(sum(restaurantScores) / len(restaurantScores)))
-        print("Max score    :", "%.2f"%(max(restaurantScores)))
-        print("Min score    :", "%.2f"%(min(restaurantScores)))
-        print("")
+            # print generation summary
+            print("")
+            print("Average score:", "%.2f"%(sum(restaurantScores) / len(restaurantScores)))
+            print("Max score    :", "%.2f"%(max(restaurantScores)))
+            print("Min score    :", "%.2f"%(min(restaurantScores)))
+            print("")
 
         # randomly evolve customer (constant heuristics)
         customerHeuristics = []
@@ -85,9 +92,8 @@ def tipping_sim(init_price=None, n_restaurants=None, n_customers=None, max_gener
         sim_results["restaurant " + str(id)] = {"profit": restaurant.profit}
         id += 1
 
-    print("================ Done ================")
-
-    print("")
+    if (DEBUG):
+        print("================ Done ================")
 
     return sim_results
 

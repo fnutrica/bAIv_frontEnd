@@ -39,10 +39,8 @@ def simulate(request):
         curr_order = int(float(request.POST.get("order_n")))
         scenario_id = int(float(request.POST.get("scenario_id")));
         pot_scenarios = Scenario.objects.filter(scenario_id = scenario_id)
-        print("current order " + str(curr_order))
-        print("len of scenarios " + str(len(pot_scenarios)))
         if (curr_order< len(pot_scenarios)-1):
-            next_order = int(float(request.POST.get("order_n")))+1; 
+            next_order = curr_order+1; 
         else:
             next_order = curr_order
 
@@ -59,12 +57,10 @@ def simulate(request):
         sim_data = [init_price,n_restaurants,n_customers,max_generations]
         sim_data_ints = []
         for i in range(len(sim_data)):
-            print (sim_data[i])
             if sim_data[i] is not None:
                 sim_data[i] = int(sim_data[i])
 
         restaurants = Tipping_Sim.tipping_sim(sim_data[0], sim_data[1], sim_data[2], sim_data[3])
-        print("sending new order n " + str(my_scenario.order_n))
         response_data = {"scenario_text": my_scenario.text, "scenario_order_n": my_scenario.order_n,"scenario_id": my_scenario.scenario_id, "inputs": my_inputs, "restaurants": restaurants}
         
         return HttpResponse(
